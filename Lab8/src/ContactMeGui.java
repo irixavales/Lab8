@@ -7,16 +7,16 @@ public class ContactMeGui extends JFrame
 	private static final int WIDTH = 400;
 	private static final int HEIGHT = 300;
 
-	private JLabel emailL, passwordL,reEnterPassL, messageL, nameL, genderL;
+	private JLabel emailL, passwordL,reEnterPassL, messageL, nameL;
 	private JTextField emailTF, messageTF, nameTF;
 	private JPasswordField passwordTF,reEnterPassTF;
 	private JButton sendB, exitB, clearB;
 	private JRadioButton genderMaleB, genderFemaleB;
+	private ButtonGroup gender;
 
 	private SendButtonHandler sbHandler;
 	private ExitButtonHandler ebHandler;
-//	private ClearButtonHandler cbHandler;
-//	private ClearButtonHandler cbHandler;
+	private ClearButtonHandler cbHandler;
 
 	private JMenuBar  menuBar;
 	private JMenu make;
@@ -32,8 +32,7 @@ public class ContactMeGui extends JFrame
 		passwordL = new JLabel("Password: ", SwingConstants.CENTER);
 		reEnterPassL= new JLabel("Re-enter Password: ", SwingConstants.CENTER);
 		messageL = new JLabel("Addtional Info: ", SwingConstants.CENTER);
-		genderL = new JLabel("Gender: ", SwingConstants.CENTER);
-
+		
 		nameTF = new JTextField();
 		emailTF = new JTextField();
 		passwordTF = new JPasswordField();
@@ -50,8 +49,8 @@ public class ContactMeGui extends JFrame
 		exitB.addActionListener(ebHandler);
 
 		clearB = new JButton("Clear");
-//		cbHandler = new ClearButtonHandler();
-//		clearB.addActionListener(cbHandler);
+		cbHandler = new ClearButtonHandler();
+		clearB.addActionListener(cbHandler);
 		
 		genderMaleB = new JRadioButton("Male");
 		genderMaleB.setActionCommand("Male");
@@ -59,7 +58,7 @@ public class ContactMeGui extends JFrame
 		genderFemaleB = new JRadioButton("Female");
 		genderFemaleB.setActionCommand("Female");
 		
-		ButtonGroup gender = new ButtonGroup();
+		gender = new ButtonGroup();
 		gender.add(genderMaleB);
 		gender.add(genderFemaleB);
 
@@ -77,7 +76,7 @@ public class ContactMeGui extends JFrame
 
 		setTitle("Registration Form");
 		Container pane = getContentPane();
-		pane.setLayout(new GridLayout(8, 3));
+		pane.setLayout(new GridLayout(8, 2));
 
 		//Add things to the pane in the order you want them to appear (left to right, top to bottom)
 		pane.add(nameL);
@@ -90,9 +89,8 @@ public class ContactMeGui extends JFrame
 		pane.add(reEnterPassTF);
 		pane.add(messageL);
 		pane.add(messageTF);
-		pane.add(genderL);
 		pane.add(genderMaleB);
-//		pane.add(genderFemaleB);
+		pane.add(genderFemaleB);
 		pane.add(menuBar);
 		
 		pane.add(clearB);
@@ -113,8 +111,6 @@ public class ContactMeGui extends JFrame
 			String inputPassword= passwordTF.getText();
 			String reinputPassword= reEnterPassTF.getText();
 			String inputMessage= messageTF.getText();
-//			boolean isMale = genderMaleB.getAccessibleContext();
-
 
 			if(inputEmail.equals("") || inputPassword.equals("") || reinputPassword.equals("")){
 
@@ -125,7 +121,7 @@ public class ContactMeGui extends JFrame
 						JOptionPane.WARNING_MESSAGE);
 			}
 			//the password is invalid
-			else if(!inputPassword.contains("@")) {
+			else if(!inputEmail.contains("@")) {
 				JOptionPane.showMessageDialog(null, "Please enter a valid email adress", "Invalid email adress", JOptionPane.WARNING_MESSAGE);
 			}
 			//the password is too long
@@ -159,6 +155,19 @@ public class ContactMeGui extends JFrame
 		public void actionPerformed(ActionEvent e)
 		{
 			System.exit(0);
+		}
+	}
+	
+	public class ClearButtonHandler implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			emailTF.setText("");
+			messageTF.setText("");
+			nameTF.setText("");
+			passwordTF.setText("");
+			reEnterPassTF.setText("");
+			gender.clearSelection();
 		}
 	}
 
